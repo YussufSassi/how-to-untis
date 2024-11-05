@@ -14,7 +14,7 @@ Untis uses both a `JSESSIONID` cookie and a Bearer-JWT Authorization token which
 
 To get the Bearer token though, you will need a session id. And to get the session ID, you will need to send a request to the schools login url: `https://<schools_subdomain>.webuntis.com/WebUntis/j_spring_security_check` with the following data:
 
-```json
+```jsonc
 {
 "school": "asdf-school", // Your school's ID
 "j_username": "user", // Your username with access to the timetables
@@ -32,7 +32,7 @@ Now you have the session ID, congrats!
 Next, we will get the Authorization token. To generate it, we will need to query the following URL with a GET request: `https:///<schools_subdomain>.webuntis.com/WebUntis/api/token/new`
 
 You will need to send these headers for the request to work: 
-```json
+```jsonc
 {
  	"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:130.0) Gecko/20100101 Firefox/130.0", // This is just a common user-agent as an example
 	"Accept": "application/json", // Only works when you specify this header.
@@ -48,7 +48,7 @@ This request will just return your authorization token in plaintext.
 
 Now that we have our session and token, we need to gather some more data about the school. The easiest way to do this, is by opening your timetable in webuntis and grabbing your current cookies. They should resemble this format:
 
-```json
+```jsonc
 {
 	"schoolname": "_YmsganVzdCBraWRkaW5n=", // This is and underscore + the schools id we got from the URL in base64
 	"Tenant-Id": "5037210", // This is a unique identifier of the school
@@ -58,7 +58,7 @@ Now that we have our session and token, we need to gather some more data about t
 
 
 Then we will create a header object which looks like this:
-```json
+```jsonc
 {
 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:130.0) Gecko/20100101 Firefox/130.0", // these help to mask our traffic as regular traffic
 "Accept": "application/json, text/plain, */*", // ^^^^
@@ -70,7 +70,7 @@ Then we will create a header object which looks like this:
 
 
 And then finally we need to get URL params which look like this:
-```json
+```jsonc
  {
 "start": "2024-11-05T21:17:29Z", // Start date of data in ISO 8601
 "end": "2024-10-05T21:17:29Z", // End date of data in ISO 8601
@@ -86,7 +86,7 @@ Then finally we can send a GET request to this URL  using the above cookies, hea
 
 You will get a JSON schema similar to this (This is what it looks like for 3 days):
 
-```json
+```jsonc
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Timetable",
